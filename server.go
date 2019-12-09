@@ -28,11 +28,21 @@ a=sctp-port:5000
 
 func main() {
 	s := webrtc.SettingEngine{}
-	s.GenerateMulticastDNSCandidates(true)
-	s.SetMulticastDNSHostName("4d032d50-fd6a-4987-911c-e6ff48fcc18b.local")
-	panicIfErr(s.SetEphemeralUDPPortRange(5000, 5005))
-	s.SetLite(true)
 
+	// Generate mDNS Candidates and set a static local hostname
+	s.GenerateMulticastDNSCandidates(true)
+	s.SetMulticastDNSHostName("myPionTestInstance.local")
+
+	// Set a small number of pre-determined ports we listen for ICE traffic on
+	panicIfErr(s.SetEphemeralUDPPortRange(5000, 5005))
+
+	// Disable DTLS Certificate Verification. Currently we aren't able to use stored certificate in the browser
+	s.DisableCertificateFingerprintVerification(true)
+
+	// Set static ICE Credentials
+	s.SetICECredentials("fKVhbscsMWDGAnBg", "xGjQkAvKIVkBeVTGWcvCQtnVAeapczwa")
+
+	// Create a new PeerConnection
 	api := webrtc.NewAPI(webrtc.WithSettingEngine(s))
 	peerConnection, err := api.NewPeerConnection(webrtc.Configuration{
 		Certificates: generateCertificates(),
@@ -40,6 +50,10 @@ func main() {
 	panicIfErr(err)
 
 	peerConnection.OnDataChannel(func(d *webrtc.DataChannel) {
+		d.OnOpen(func() {
+			fmt.Printf("DataChannel %s has opened", d.Label())
+		})
+
 		d.OnMessage(func(m webrtc.DataChannelMessage) {
 			fmt.Printf("%s \n", m.Data)
 		})
@@ -53,8 +67,6 @@ func main() {
 	answer, err := peerConnection.CreateAnswer(nil)
 	panicIfErr(err)
 	panicIfErr(peerConnection.SetLocalDescription(answer))
-
-	fmt.Println(answer)
 
 	select {}
 }
@@ -85,7 +97,7 @@ func generateCertificates() []webrtc.Certificate {
 
 	cert, err := x509.ParseCertificate(generatedCert)
 	panicIfErr(err)
-	return []webrtc.Certificate{webrtc.PreCannedCertificate(privateKey, cert)}
+	return []webrtc.Certificate{webrtc.CertificateFromX509(privateKey, cert)}
 }
 
 func panicIfErr(err error) {
