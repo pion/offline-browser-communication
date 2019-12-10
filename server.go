@@ -20,7 +20,7 @@ m=application 9 UDP/DTLS/SCTP webrtc-datachannel
 c=IN IP4 0.0.0.0
 a=ice-ufrag:V6j+
 a=ice-pwd:OEKutPgoHVk/99FfqPOf444w
-a=fingerprint:sha-256 EC:9C:D4:F4:E8:FB:CB:BA:52:DE:D3:15:4B:FA:A6:22:24:D5:7D:4B:B1:F8:69:AC:DC:1D:B0:32:98:18:10:D5
+a=fingerprint:sha-256 invalidFingerprint
 a=setup:actpass
 a=mid:0
 a=sctp-port:5000
@@ -31,7 +31,7 @@ func main() {
 
 	// Generate mDNS Candidates and set a static local hostname
 	s.GenerateMulticastDNSCandidates(true)
-	s.SetMulticastDNSHostName("myPionTestInstance.local")
+	s.SetMulticastDNSHostName("offline-browser-communication.local")
 
 	// Set a small number of pre-determined ports we listen for ICE traffic on
 	panicIfErr(s.SetEphemeralUDPPortRange(5000, 5005))
@@ -42,7 +42,7 @@ func main() {
 	// Set static ICE Credentials
 	s.SetICECredentials("fKVhbscsMWDGAnBg", "xGjQkAvKIVkBeVTGWcvCQtnVAeapczwa")
 
-	// Create a new PeerConnection
+	// Create a new PeerConnection, this listens for all incoming DataChannel messages
 	api := webrtc.NewAPI(webrtc.WithSettingEngine(s))
 	peerConnection, err := api.NewPeerConnection(webrtc.Configuration{
 		Certificates: generateCertificates(),
@@ -51,12 +51,16 @@ func main() {
 
 	peerConnection.OnDataChannel(func(d *webrtc.DataChannel) {
 		d.OnOpen(func() {
-			fmt.Printf("DataChannel %s has opened", d.Label())
+			fmt.Printf("DataChannel %s has opened \n", d.Label())
 		})
 
 		d.OnMessage(func(m webrtc.DataChannelMessage) {
 			fmt.Printf("%s \n", m.Data)
 		})
+	})
+
+	peerConnection.OnICEConnectionStateChange(func(connectionState webrtc.ICEConnectionState) {
+		fmt.Printf("Connection State has changed %s \n", connectionState.String())
 	})
 
 	panicIfErr(peerConnection.SetRemoteDescription(webrtc.SessionDescription{
@@ -68,6 +72,7 @@ func main() {
 	panicIfErr(err)
 	panicIfErr(peerConnection.SetLocalDescription(answer))
 
+	fmt.Println("Ready to connect, please load https://jsfiddle.net/vksy1ujd/4/")
 	select {}
 }
 
