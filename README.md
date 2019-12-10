@@ -42,23 +42,23 @@ You could build stuff like.
 * *Please share your cool ideas with us!*
 
 ### FAQ
-* Is this secure?
+#### Is this secure?
 
 No currently everything is hardcoded, this is just a demonstration. I believe this could be reasonably secure if seeded properly. Better to ask a security person though.
 
-* What platforms are supported?
+#### What platforms are supported?
 
 OSX and Linux
 
-* What browsers work?
+#### What browsers work?
 
 Only Chromium so far. If there is interest I would like to support more
 
-* What is next?
+#### What is next?
 
 I would like to get this into the IETF/W3C, but as an individual I am unable to be involved. If you are interested and have membership please reach out!
 
-* I want to talk about cool WebRTC stuff!
+#### I want to talk about cool WebRTC stuff!
 
 Join the [Pion Slack](https://pion.ly/slack)
 
