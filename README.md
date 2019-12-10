@@ -54,6 +54,10 @@ OSX and Linux
 
 Only Chromium so far. If there is interest I would like to support more
 
+#### What libraries/dependencies does this use
+
+Only [Pion WebRTC](https://github.com/pion/webrtc) it is a full Go implementation of WebRTC. It has zero C/C++ usage.
+
 #### What is next?
 
 I would like to get this into the IETF/W3C, but as an individual I am unable to be involved. If you are interested and have membership please reach out!
