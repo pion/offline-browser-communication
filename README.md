@@ -20,11 +20,11 @@ The peers use mDNS to connect to each other, and have pre-set ICE Credentials an
 * `git clone https://github.com/pion/offline-browser-communication.git`
 * `cd offline-browser-communication`
 * `go run *.go`
-* Open https://jsfiddle.net/vksy1ujd/4/
+* Open https://jsfiddle.net/zq1fjkr9/
 
 You should see the following in your terminal.
 ```
-Ready to connect, please load https://jsfiddle.net/vksy1ujd/4/
+Ready to connect, please load https://jsfiddle.net/zq1fjkr9/
 Connection State has changed checking
 Connection State has changed connected
 DataChannel foo has opened
@@ -66,6 +66,19 @@ I would like to get this into the IETF/W3C, but as an individual I am unable to 
 
 Join the [Pion Slack](https://pion.ly/slack)
 
+#### I need to update the DTLS Fingerprint
+If you see an error like `InvalidAccessError: x509Cert expired` the certificate has expired. You can update it by following these instructions. Please submit a PR
+with the updated certificate as well, thanks!
+
+```
+  // Create new certificate
+  openssl ecparam -out key.pem -name prime256v1 -genkey
+  openssl req -new -sha256 -key key.pem -out server.csr
+  openssl x509 -req -sha256 -days 365 -in server.csr -signkey key.pem -out cert.pem
+
+  // Create new fingerprint for jsfiddle
+  openssl x509 -noout -fingerprint -sha256 -inform pem -in cert.pem
+```
 
 ### Community
 Pion has an active community on the [Golang Slack](https://invite.slack.golangbridge.org/). Sign up and join the **#pion** channel for discussions and support. You can also use [Pion mailing list](https://groups.google.com/forum/#!forum/pion).
