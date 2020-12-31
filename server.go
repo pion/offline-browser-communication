@@ -6,7 +6,8 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/pion/webrtc/v2"
+	"github.com/pion/ice/v2"
+	"github.com/pion/webrtc/v3"
 )
 
 const remoteDescriptionTemplate = `v=0
@@ -29,7 +30,7 @@ func main() {
 	s := webrtc.SettingEngine{}
 
 	// Generate mDNS Candidates and set a static local hostname
-	s.GenerateMulticastDNSCandidates(true)
+	s.SetICEMulticastDNSMode(ice.MulticastDNSModeQueryAndGather)
 	s.SetMulticastDNSHostName("offline-browser-communication.local")
 
 	// Set a small number of pre-determined ports we listen for ICE traffic on
@@ -71,7 +72,7 @@ func main() {
 	panicIfErr(err)
 	panicIfErr(peerConnection.SetLocalDescription(answer))
 
-	fmt.Println("Ready to connect, please load https://jsfiddle.net/zq1fjkr9/")
+	fmt.Println("Ready to connect, please load https://jsfiddle.net/ehnpzrfx/")
 	select {}
 }
 

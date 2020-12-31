@@ -3,7 +3,6 @@ module github.com/pion/offline-browser-communication
 go 1.13
 
 require (
-	github.com/golang/protobuf v1.3.2 // indirect
-	github.com/lucas-clemente/quic-go v0.14.1 // indirect
-	github.com/pion/webrtc/v2 v2.1.17 // indirect
+	github.com/pion/ice/v2 v2.0.14
+	github.com/pion/webrtc/v3 v3.0.1
 )
