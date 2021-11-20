@@ -20,11 +20,11 @@ The peers use mDNS to connect to each other, and have pre-set ICE Credentials an
 * `git clone https://github.com/pion/offline-browser-communication.git`
 * `cd offline-browser-communication`
 * `go run *.go`
-* Open https://jsfiddle.net/ehnpzrfx/
+* Open https://jsfiddle.net/nah7qvkj/
 
 You should see the following in your terminal.
 ```
-Ready to connect, please load https://jsfiddle.net/ehnpzrfx/
+Ready to connect, please load https://jsfiddle.net/nah7qvkj/
 Connection State has changed checking
 Connection State has changed connected
 DataChannel foo has opened
@@ -72,9 +72,7 @@ with the updated certificate as well, thanks!
 
 ```
   // Create new certificate
-  openssl ecparam -out key.pem -name prime256v1 -genkey
-  openssl req -new -sha256 -key key.pem -out server.csr
-  openssl x509 -req -sha256 -days 365 -in server.csr -signkey key.pem -out cert.pem
+  go run `go env GOROOT`/src/crypto/tls/generate_cert.go --host=localhost --ecdsa-curve=P256
 
   // Create new fingerprint for jsfiddle
   openssl x509 -noout -fingerprint -sha256 -inform pem -in cert.pem

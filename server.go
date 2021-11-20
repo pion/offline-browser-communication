@@ -72,7 +72,7 @@ func main() {
 	panicIfErr(err)
 	panicIfErr(peerConnection.SetLocalDescription(answer))
 
-	fmt.Println("Ready to connect, please load https://jsfiddle.net/ehnpzrfx/")
+	fmt.Println("Ready to connect, please load https://jsfiddle.net/nah7qvkj/")
 	select {}
 }
 
@@ -90,7 +90,7 @@ func loadCertificate() []webrtc.Certificate {
 	cert, err := x509.ParseCertificate(certPem.Bytes)
 	panicIfErr(err)
 
-	privateKey, err := x509.ParseECPrivateKey(keyPem.Bytes)
+	privateKey, err := x509.ParsePKCS8PrivateKey(keyPem.Bytes)
 	panicIfErr(err)
 
 	return []webrtc.Certificate{webrtc.CertificateFromX509(privateKey, cert)}
