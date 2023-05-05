@@ -4,5 +4,5 @@ go 1.13
 
 require (
 	github.com/pion/ice/v2 v2.3.2
-	github.com/pion/webrtc/v3 v3.1.60
+	github.com/pion/webrtc/v3 v3.2.1
 )
