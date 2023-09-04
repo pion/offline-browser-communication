@@ -13,8 +13,8 @@
 </p>
 <br>
 
-This repo demonstrates how you can connect two WebRTC proccesses without signaling. No configuration is needed ahead of time, so no hardcoding of IP Addresses.
-The peers use mDNS to connect to each other, and have pre-set ICE Credentials and DTLS Certificates.
+This repo demonstrates how you can connect two WebRTC proccesses on a local network without signaling. No configuration is needed ahead of time, so no hardcoding of IP Addresses.
+The peers use mDNS (hence it only works on local networks) to connect to each other, and have pre-set ICE Credentials and DTLS Certificates.
 
 ### Running
 * `git clone https://github.com/pion/offline-browser-communication.git`
