@@ -1,3 +1,10 @@
+The techniques shown in this repo no longer work. Chrome disabled the modification of the ICE ufrag/pwd. You can see the announcement [here]https://groups.google.com/g/discuss-webrtc/c/PIJZN5MTZF4/m/JHVmmn8yDgAJ?pli=1)
+
+Allowing two peers to connect in a LAN without having to hit a signaling server is something I am still interested in. I hope to come back to this topic someday. If you are interested please contact me
+and would love to make this an offical web api!
+
+------
+
 <h1 align="center">
   <a href="https://pion.ly"><img src="./.github/pion-gopher-webrtc.png" alt="Pion WebRTC" height="250px"></a>
   <br>
